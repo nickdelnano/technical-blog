@@ -1,138 +1,168 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <title>Redshift Dba Handbook | My New Hugo Site</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1">
-    <meta name="description" content="Introduction
-This is bold text, and this is emphasized text.">
-    <meta name="generator" content="Hugo 0.138.0">
-    
-    
-    
-      <meta name="robots" content="noindex, nofollow">
-    
-    
+<html lang="en">
 
-    
-<link rel="stylesheet" href="/ananke/css/main.min.css" >
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8" />
+<meta name="author" content="" />
 
+<meta name="description" content="" />
 
+<meta name="keywords" content="" />
 
-    
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.138.0">
 
-    
-      
-
-    
-
-    
-
-    
-      <link rel="canonical" href="http://localhost:1313/posts/redshift-dba-handbook/">
-    
-
-    <meta property="og:url" content="http://localhost:1313/posts/redshift-dba-handbook/">
-  <meta property="og:site_name" content="My New Hugo Site">
-  <meta property="og:title" content="Redshift Dba Handbook">
-  <meta property="og:description" content="Introduction This is bold text, and this is emphasized text.">
-  <meta property="og:locale" content="en_us">
+<link rel="canonical" href="//localhost:1313/posts/redshift-dba-handbook/">
+<meta property="og:url" content="//localhost:1313/posts/redshift-dba-handbook/">
+  <meta property="og:site_name" content="Nick Del Nano&#39;s blog">
+  <meta property="og:title" content="Redshift DBA Handbook">
+  <meta property="og:description" content="I became a Redshift DBA by chance but have grown to like the product and the role. At first I found Redshift to be opaque and challenging to debug. The standard system views leave some questions unanswered. Here’s my handbook of queries that fills in some of the gaps.
+I haven’t found much writing about these types of queries so I thought I would contribute to it.
+This is from my experience with only provisioned clusters. Some aspects of Redshift Serverless are surely different.">
+  <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-11-16T13:22:29-08:00">
-    <meta property="article:modified_time" content="2024-11-16T13:22:29-08:00">
+    <meta property="article:published_time" content="2024-01-08T00:00:00-08:00">
+    <meta property="article:modified_time" content="2024-01-08T00:00:00-08:00">
 
-  <meta itemprop="name" content="Redshift Dba Handbook">
-  <meta itemprop="description" content="Introduction This is bold text, and this is emphasized text.">
-  <meta itemprop="datePublished" content="2024-11-16T13:22:29-08:00">
-  <meta itemprop="dateModified" content="2024-11-16T13:22:29-08:00">
-  <meta itemprop="wordCount" content="10">
+
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Redshift Dba Handbook">
-  <meta name="twitter:description" content="Introduction This is bold text, and this is emphasized text.">
+  <meta name="twitter:title" content="Redshift DBA Handbook">
+  <meta name="twitter:description" content="I became a Redshift DBA by chance but have grown to like the product and the role. At first I found Redshift to be opaque and challenging to debug. The standard system views leave some questions unanswered. Here’s my handbook of queries that fills in some of the gaps.
+I haven’t found much writing about these types of queries so I thought I would contribute to it.
+This is from my experience with only provisioned clusters. Some aspects of Redshift Serverless are surely different.">
 
-	
-  </head><body class="ma0 avenir bg-near-white development">
+
+  <meta itemprop="name" content="Redshift DBA Handbook">
+  <meta itemprop="description" content="I became a Redshift DBA by chance but have grown to like the product and the role. At first I found Redshift to be opaque and challenging to debug. The standard system views leave some questions unanswered. Here’s my handbook of queries that fills in some of the gaps.
+I haven’t found much writing about these types of queries so I thought I would contribute to it.
+This is from my experience with only provisioned clusters. Some aspects of Redshift Serverless are surely different.">
+  <meta itemprop="datePublished" content="2024-01-08T00:00:00-08:00">
+  <meta itemprop="dateModified" content="2024-01-08T00:00:00-08:00">
+  <meta itemprop="wordCount" content="452">
+
+<link rel="stylesheet" href="/css/layout.css" />
+
+
+<link rel="stylesheet" href="/css/default-dark.css" />
+
+
+
+
+<title>
+
+
+     Redshift DBA Handbook 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="//localhost:1313/">Nick Del Nano&#39;s blog</a>
+    </div> 
 
     
-   
-  
+    
 
-  <header>
-    <div class="bg-black">
-      <nav class="pv3 ph3 ph4-ns" role="navigation">
-  <div class="flex-l justify-between items-center center">
-    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
-      
-        My New Hugo Site
-      
-    </a>
-    <div class="flex-l items-center">
-      
+  </nav>
 
-      
-      <div class="ananke-socials"></div>
-
-    </div>
-  </div>
-</nav>
-
-    </div>
-  </header>
-
-
-
-    <main class="pb7" role="main">
-      
-  
-  <article class="flex-l flex-wrap justify-between mw8 center ph3">
-    <header class="mt4 w-100">
-      <aside class="instapaper_ignoref b helvetica tracked ttu">
-          
-        Posts
-      </aside><div id="sharing" class="mt3 ananke-socials"></div>
-<h1 class="f1 athelas mt3 mb1">Redshift Dba Handbook</h1>
-      
-      
-      
-      <time class="f6 mv4 dib tracked" datetime="2024-11-16T13:22:29-08:00">November 16, 2024</time>
-      
-
-      
-      
-    </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h2 id="introduction">Introduction</h2>
-<p>This is <strong>bold</strong> text, and this is <em>emphasized</em> text.</p>
-<ul class="pa0">
-  
-</ul>
-<div class="mt6 instapaper_ignoref">
-      
-      
-      </div>
-    </div>
-
-    <aside class="w-30-l mt6-l">
-
-
-
-
-</aside>
-
-  </article>
-
-    </main>
-    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
-    &copy;  My New Hugo Site 2024 
-  </a>
-    <div><div class="ananke-socials"></div>
 </div>
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Redshift DBA Handbook </h1>
+    <div class="content"> <p>I became a Redshift DBA by chance but have grown to like the product and the role. At first I found Redshift to be opaque and challenging to debug. The standard system views leave some questions unanswered. Here&rsquo;s my handbook of queries that fills in some of the gaps.</p>
+<p>I haven&rsquo;t found much writing about these types of queries so I thought I would contribute to it.</p>
+<p>This is from my experience with only provisioned clusters. Some aspects of Redshift Serverless are surely different.</p>
+<h2 id="cluster-state">Cluster State</h2>
+<p><a href="https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql">Current queries (running and queued)</a>
+If you use Redshift, this query should be near first item to check in a runbook for &ldquo;Redshift cluster is slow&rdquo;.
+It provides a per user, query, queue breakdown of what is happening in your cluster. Run this in a sql client that supports sorting results by column without re-running the query, and you can go column by column to determine what use case is halting your cluster.</p>
+<p>Common Redshift failure modes that this view easily identifies:</p>
+<ul>
+<li>One query using a ton of CPU time and blocking the whole workload (Redshift is very vulnerable to this)</li>
+<li>One use case running many, many queries and backlogging a WLM queue (maybe a Spark application running with too many executors)</li>
+<li>A query hopelessly spilling memory to disk, that is unlikely to exceed</li>
+</ul>
+<h2 id="blocking-locks">Blocking locks</h2>
+<p><a href="https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminViews/v_get_blocking_locks.sql">Get blocking locks</a></p>
+<p>This view is helpful to see any processes that are blocked on others. See <a href="https://repost.aws/knowledge-center/prevent-locks-blocking-queries-redshift">here</a> for Redshift&rsquo;s lock types.</p>
+<h2 id="resource-usage">Resource usage</h2>
+<p><a href="https://docs.aws.amazon.com/redshift/latest/dg/r_SVL_QUERY_METRICS_SUMMARY.html">SVL_QUERY_METRICS_SUMMARY</a></p>
+<p>This perspective shows resource consumption per use case. <code>query_cpu_time</code> is a good indicator, however, this metric is not tracked in any system table for concurrency scaling clusters. If your workload relies on concurrency scaling then you are limited in how you can attribute resource usage. Query execution time is the most capable metric that is available in concurrency scaling but it is flawed – it&rsquo;s easily affected by concurrent cluster workload and concurrency scaling is an opaque box. Resource attribution is an unsolved problem in provisioned clusters but it has improved in the Serverless product.</p>
+<h2 id="permissions">Permissions</h2>
+<p><a href="https://docs.aws.amazon.com/redshift/latest/dg/r_SVV_RELATION_PRIVILEGES.html">SVV_RELATION_PRIVILEGES</a></p>
+<p><a href="https://docs.aws.amazon.com/redshift/latest/dg/r_SVV_SCHEMA_PRIVILEGES.html">SVV_SCHEMA_PRIVILEGES</a></p>
+<p>These views were released sometime in 2023 and are a major improvement over the previous solutions.
+Take them and join with a query that <a href="https://stackoverflow.com/questions/51913807/redshift-how-to-list-all-users-in-a-group">joins users and groups</a> to see what users have (read, write) access to what tables and whether it&rsquo;s through a group or per user grant.</p>
+<h1 id="hope-this-helps-">Hope this helps :)</h1>
+<p>I wish I had this all when I started working with Redshift, so I hope it helps you.</p>
+<p>A future topic on this blog will hopefully be a better default Redshift cloudwatch dashboard than the one Cloudwatch provides, but for now konw that theres a ton more Cloudwatch metrics, especially ones for WLM queues!</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+            
+<div class="tags">
+  
+</div>
+
+    
+    <hr>
+    
+    <div class="date"> Published: 2024-01-08</div>
+    <div class="updated"> Updated:   2024-01-08</div>
   </div>
 </footer>
 
-  </body>
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  
+  </div>
+
+</div>
+
+
+  <div class="copyright">  </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
 </html>
+

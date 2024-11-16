@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8" />
+<meta name="author" content="" />
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="" />
+
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.138.0">
+
+<link rel="canonical" href="//localhost:1313/posts/aws-lake-formation-self-hosted-engines/">
+<meta property="og:url" content="//localhost:1313/posts/aws-lake-formation-self-hosted-engines/">
+  <meta property="og:site_name" content="Nick Del Nano&#39;s blog">
+  <meta property="og:title" content="AWS Lake Formation with Self Hosted Query Engines">
+  <meta property="og:description" content="Lake Formation is a neat service that provides a better authorization abstraction for data lake objects than IAM. What do I mean by “better”?
+Friendlier for data related roles (analysts, data engineers, data scientists, etc) to understand and use These roles work with data lake table names. They don’t care about S3 paths. Possible to audit permissions. aws lake formation list-permissions replaces … parsing IAM policies? Lake Formation provides its own permissions model that augments the IAM permissions model. Lake Formation permissions model enables fine-grained access to data stored in data lakes through a simple grant or revoke mechanism, much like a relational database management system (RDBMS). https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-15T00:00:00-08:00">
+    <meta property="article:modified_time" content="2024-09-15T00:00:00-08:00">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AWS Lake Formation with Self Hosted Query Engines">
+  <meta name="twitter:description" content="Lake Formation is a neat service that provides a better authorization abstraction for data lake objects than IAM. What do I mean by “better”?
+Friendlier for data related roles (analysts, data engineers, data scientists, etc) to understand and use These roles work with data lake table names. They don’t care about S3 paths. Possible to audit permissions. aws lake formation list-permissions replaces … parsing IAM policies? Lake Formation provides its own permissions model that augments the IAM permissions model. Lake Formation permissions model enables fine-grained access to data stored in data lakes through a simple grant or revoke mechanism, much like a relational database management system (RDBMS). https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html">
+
+
+  <meta itemprop="name" content="AWS Lake Formation with Self Hosted Query Engines">
+  <meta itemprop="description" content="Lake Formation is a neat service that provides a better authorization abstraction for data lake objects than IAM. What do I mean by “better”?
+Friendlier for data related roles (analysts, data engineers, data scientists, etc) to understand and use These roles work with data lake table names. They don’t care about S3 paths. Possible to audit permissions. aws lake formation list-permissions replaces … parsing IAM policies? Lake Formation provides its own permissions model that augments the IAM permissions model. Lake Formation permissions model enables fine-grained access to data stored in data lakes through a simple grant or revoke mechanism, much like a relational database management system (RDBMS). https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html">
+  <meta itemprop="datePublished" content="2024-09-15T00:00:00-08:00">
+  <meta itemprop="dateModified" content="2024-09-15T00:00:00-08:00">
+  <meta itemprop="wordCount" content="507">
+
+<link rel="stylesheet" href="/css/layout.css" />
+
+
+<link rel="stylesheet" href="/css/default-dark.css" />
+
+
+
+
+<title>
+
+
+     AWS Lake Formation with Self Hosted Query Engines 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="//localhost:1313/">Nick Del Nano&#39;s blog</a>
+    </div> 
+
+    
+    
+
+  </nav>
+
+</div>
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> AWS Lake Formation with Self Hosted Query Engines </h1>
+    <div class="content"> <p>Lake Formation is a neat service that provides a better authorization abstraction for data lake objects than IAM. What do I mean by &ldquo;better&rdquo;?</p>
+<ul>
+<li>Friendlier for data related roles (analysts, data engineers, data scientists, etc) to understand and use
+<ul>
+<li>These roles work with data lake table names. They don&rsquo;t care about S3 paths.</li>
+</ul>
+</li>
+<li>Possible to audit permissions.  <em>aws lake formation list-permissions</em> replaces &hellip; parsing IAM policies?</li>
+</ul>
+
+
+  <blockquote>
+    <p>Lake Formation provides its own permissions model that augments the IAM permissions model. Lake Formation permissions model enables fine-grained access to data stored in data lakes through a simple grant or revoke mechanism, much like a relational database management system (RDBMS).
+<a href="https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html">https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html</a></p>
+
+  </blockquote>
+
+
+<p>With Lake Formation, IAM permissions on S3 (data) and Glue (metadata) resources become <em>GRANT</em> statements. If you have managed IAM change management in an enterprise, or even if you have written an IAM policy just one time, this will be a welcome change to you.</p>
+<p>Bringing data lake permissions into the data world is a huge value add for the triad of data users, the data platform team and a security organization. <em>But there are prerequisites, and hopefully your deployment meets them. If not, then maybe this post will help you.</em></p>
+<h2 id="query-engine-compatibility">Query Engine Compatibility</h2>
+<p>To enable <a href="https://docs.aws.amazon.com/lake-formation/latest/dg/how-it-works.html">Lake Formation&rsquo;s implementation</a>, it requires using <a href="https://docs.aws.amazon.com/lake-formation/latest/dg/service-integrations.html">AWS hosted query engines</a>. If you are self hosting your query engine, or if you are using an engine not supported in Lake Formation, you can implement the <a href="https://docs.aws.amazon.com/lake-formation/latest/dg/using-cred-vending.html">credential vending API</a>. It is possible – <a href="https://docs.starburst.io/latest/security/aws-lake-formation.html">vendors</a> in the space have done this – but what if you don&rsquo;t want to, or you simply want an open source solution?</p>
+<h2 id="expanded-compatibility-with-apache-iceberg">Expanded Compatibility with Apache Iceberg</h2>
+<p>Enter Iceberg&rsquo;s <a href="https://github.com/apache/iceberg/blob/main/aws/src/main/java/org/apache/iceberg/aws/lakeformation/LakeFormationAwsClientFactory.java#L51">LakeFormationAwsClientFactory</a> class.</p>
+<p>This was <a href="https://github.com/apache/iceberg/pull/4280">contributed by AWS</a> &ndash; plausibly for use with their query engine services &ndash; but it works in the case of a single party. See example configuration <a href="https://github.com/apache/iceberg/issues/10226">here</a>.</p>
+<p>Now you can integrate any Iceberg compatible query engine with Lake Formation permissions. For my case this was open source Spark and Flink.</p>
+<p>There is an important limitation:  Lake Formation row and column security policies cannot be securely applied. As part of the <a href="https://docs.aws.amazon.com/lake-formation/latest/dg/roles-and-responsibilities.html">credential vending contract</a>, the third-party must not leak credentials and must return only filtered data to users. This is not applicable in this case since there is only one party and the application will access the credentials. If this limitation is not a blocker for you, then you can enjoy Lake Formation support in all of your query engines.</p>
+<h2 id="addendum">Addendum</h2>
+<p>The Lake Formation implementation in Iceberg does not work to create tables. The integration test in the repo fails (and is not run on CI? Probably because it requires an AWS account with broad permissions on the IAM service).</p>
+<p>I&rsquo;ve filed <a href="https://github.com/apache/iceberg/issues/10226">issue #10226</a> about this.</p>
+<p>This can be worked around by</p>
+<ul>
+<li>Creating a table using Glue APIs. My use-case is for client IAMs to have no S3 permissions and only Lake Formation grants, so I use <code>glue create-table</code> with <code>--open-table-format-input</code>. See <a href="https://docs.aws.amazon.com/lake-formation/latest/dg/creating-iceberg-tables.html">here</a>.</li>
+<li>Creating a separate catalog instance without the Lake Formation properties and run DDL through this catalog.</li>
+</ul>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+            
+<div class="tags">
+  
+</div>
+
+    
+    <hr>
+    
+    <div class="date"> Published: 2024-09-15</div>
+    <div class="updated"> Updated:   2024-09-15</div>
+  </div>
+</footer>
+
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  
+  </div>
+
+</div>
+
+
+  <div class="copyright">  </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+
