@@ -1,7 +1,0 @@
-baseURL: 'https://example.org/'
-languageCode: en-us
-theme: awesome
-params:
-  contact:
-    email: nickdelnano@gmail.com
-title: Nick Del Nano's blog
