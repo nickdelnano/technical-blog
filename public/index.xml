@@ -6,14 +6,35 @@
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Nov 2024 13:22:29 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 15 Sep 2024 00:00:00 -0800</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Redshift Dba Handbook</title>
+      <title>AWS Lake Formation with Self Hosted Query Engines</title>
+      <link>http://localhost:1313/posts/aws-lake-formation-self-hosted-engines/</link>
+      <pubDate>Sun, 15 Sep 2024 00:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/posts/aws-lake-formation-self-hosted-engines/</guid>
+      <description>&lt;p&gt;Lake Formation is a neat service that provides a better authorization abstraction for data lake objects than IAM. What do I mean by &amp;ldquo;better&amp;rdquo;?&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Friendlier for data related roles (analysts, data engineers, data scientists, etc) to understand and use&#xA;&lt;ul&gt;&#xA;&lt;li&gt;These roles work with data lake table names. They don&amp;rsquo;t care about S3 paths.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;Possible to audit permissions.  &lt;em&gt;aws lake formation list-permissions&lt;/em&gt; replaces &amp;hellip; parsing IAM policies?&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;Lake Formation provides its own permissions model that augments the IAM permissions model. Lake Formation permissions model enables fine-grained access to data stored in data lakes through a simple grant or revoke mechanism, much like a relational database management system (RDBMS).&#xA;&lt;a href=&#34;https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html&#34;&gt;https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>My Favorite AWS Service</title>
+      <link>http://localhost:1313/posts/my-favorite-aws-service/</link>
+      <pubDate>Tue, 20 Aug 2024 00:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/posts/my-favorite-aws-service/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html&#34;&gt;CloudTrail&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;But not with the console UI. Send it to &lt;a href=&#34;https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake.html&#34;&gt;CloudTrail Lake&lt;/a&gt;. Or send it your log search tool like Splunk.&lt;/p&gt;&#xA;&lt;p&gt;CloudTrail has saved me so much time and made it possible to answer questions that are otherwise very difficult, like&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Debugging behavior of roles that an AWS service uses. Recently this was setting up a service linked role for Lake Formation, and a data platform where IAMs exclusively use Lake Formation permissions instead of S3 permissions (data users, security and auditing teams love this!)&lt;/li&gt;&#xA;&lt;li&gt;Quickly understanding how an application uses AWS resources without reading any code.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;I use it to debug issues almost daily, and I&amp;rsquo;ve seen it up-level many engineer&amp;rsquo;s debugging skills.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Revoking Redshift Superusers</title>
+      <link>http://localhost:1313/posts/revoking-redshift-superusers/</link>
+      <pubDate>Tue, 02 Apr 2024 00:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/posts/revoking-redshift-superusers/</guid>
+      <description>&lt;p&gt;In recent years I have been tasked with administering a fleet of Redshift clusters. Once upon a time I was tasked with reducing the number of admin level users, or &lt;a href=&#34;https://docs.aws.amazon.com/redshift/latest/dg/r_superusers.html&#34;&gt;superusers&lt;/a&gt; as Redshift calls them. If you find yourself in a similar situation, know that there is a trap waiting for you. Now you will be aware of it.&lt;/p&gt;&#xA;&lt;p&gt;If your organization has ever granted superuser access in any non-least privilege manner, you will likely have views owned by these users. Hopefully someday you apply least privilege to this part of your data infrastructure as Redshift superuser has access to everything within the cluster and likely parts of your data lake.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redshift DBA Handbook</title>
       <link>http://localhost:1313/posts/redshift-dba-handbook/</link>
-      <pubDate>Sat, 16 Nov 2024 13:22:29 -0800</pubDate>
+      <pubDate>Mon, 08 Jan 2024 00:00:00 -0800</pubDate>
       <guid>http://localhost:1313/posts/redshift-dba-handbook/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text, and this is &lt;em&gt;emphasized&lt;/em&gt; text.&lt;/p&gt;</description>
+      <description>&lt;p&gt;I became a Redshift DBA by chance but have grown to like the product and the role. At first I found Redshift to be opaque and challenging to debug. The standard system views leave some questions unanswered. Here&amp;rsquo;s my handbook of queries that fills in some of the gaps.&lt;/p&gt;&#xA;&lt;p&gt;I haven&amp;rsquo;t found much writing about these types of queries so I thought I would contribute to it.&lt;/p&gt;&#xA;&lt;p&gt;This is from my experience with only provisioned clusters. Some aspects of Redshift Serverless are surely different.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
