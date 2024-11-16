@@ -1,6 +1,5 @@
 +++
 date = '2024-08-20T00:00:00-08:00'
-draft = true
 title = 'My Favorite AWS Service'
 +++
 
