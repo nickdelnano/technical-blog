@@ -1,4 +1,12 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
-theme = 'ananke'
+title = "Nick Del Nano's blog"
+theme = "dusk"
+license = "MIT"
+licenselink = "https://github.com/gyorb/hugo-dusk/blob/master/LICENSE.md"
+description = "A minimalistic dark responsive theme."
+homepage = "https://github.com/gyorb/hugo-dusk"
+tags = ["blog", "responsive", "google analytics", "disqus", "utterances", "syntax highlighting", "custom themes", "minimal", "minimalist", "clean", "dark"]
+features = ["blog"]
+min_version = "0.133.0"
+
+[author]
+  name = "Nick Del Nano"
