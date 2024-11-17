@@ -1,1 +1,1 @@
-https://ndn-blog.netlify.app/
+[My technical blog](https://ndn-blog.netlify.app/)
