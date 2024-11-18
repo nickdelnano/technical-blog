@@ -15,5 +15,15 @@ min_version = "0.133.0"
   [markup.highlight]
     style = "native" 
 
+[taxonomies]
+  archive = "archive"
+  blog = "blog"
+
+[[menu.main]]
+  name = "Posts"
+  weight = -120
+  identifier = "blog"
+  url = "/blog/"
+
 [params]
 theme_colors = "default-dark"
