@@ -1,5 +1,5 @@
 title = "Nick Del Nano's blog"
-theme = "dusk"
+theme = "hugo-dusk"
 license = "MIT"
 licenselink = "https://github.com/gyorb/hugo-dusk/blob/master/LICENSE.md"
 description = "A minimalistic dark responsive theme."
@@ -10,3 +10,10 @@ min_version = "0.133.0"
 
 [author]
   name = "Nick Del Nano"
+
+[markup]
+  [markup.highlight]
+    style = "native" 
+
+[params]
+theme_colors = "default-dark"
